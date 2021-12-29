@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" name="a2.efimenko_T6">
+        <classes>
+            <class name="com.steps.tests.DataBaseTest">
+                <methods>
+                    <include name="runSomeTest" description="Checking if two numbers are equals"/>
+                    <include name="testDataBaseActions" description="Testing remote actions with MySql DataBase"/>
+                </methods>
+            </class>
+            <class name="com.steps.tests.TestDataUpdate">
+                <methods>
+                    <include name="runCopiedTests" description="Working with data imported from database"/>
+                </methods>
+            </class>
+
+        </classes>
+    </test>
+</suite>
+
