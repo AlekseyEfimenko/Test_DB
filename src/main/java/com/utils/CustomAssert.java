@@ -16,7 +16,7 @@ public class CustomAssert {
         try {
             assertTrue(condition);
         } catch (AssertionError ex) {
-            LOGGER.error(String.format("Expected condition is true, but found condition is false: %s", ex.getMessage()));
+            LOGGER.error(String.format("Expected condition is true, but found condition is false: %1$s", ex.getMessage()));
             throw new AssertionError();
         }
     }
@@ -25,7 +25,7 @@ public class CustomAssert {
         try {
             assertFalse(condition);
         } catch (AssertionError ex) {
-            LOGGER.error(String.format("Expected condition is false, but found condition is true: %s", ex.getMessage()));
+            LOGGER.error(String.format("Expected condition is false, but found condition is true: %1$s", ex.getMessage()));
             throw new AssertionError();
         }
     }
@@ -34,7 +34,7 @@ public class CustomAssert {
         try {
             assertEquals(actual, expected);
         } catch (AssertionError ex) {
-            LOGGER.error(String.format("This two objects are not equals: %s", ex.getMessage()));
+            LOGGER.error(String.format("This two objects are not equals: %1$s", ex.getMessage()));
             throw new AssertionError();
         }
     }
@@ -43,7 +43,7 @@ public class CustomAssert {
         try {
             assertNotEquals(actual, expected);
         } catch (AssertionError ex) {
-            LOGGER.error(String.format("This two objects are equals: %s", ex.getMessage()));
+            LOGGER.error(String.format("This two objects are equals: %1$s", ex.getMessage()));
             throw new AssertionError();
         }
     }
@@ -52,7 +52,7 @@ public class CustomAssert {
         try {
             assertNotNull(obj);
         } catch (AssertionError ex) {
-            LOGGER.error(String.format("This object is null: %s", ex.getMessage()));
+            LOGGER.error(String.format("This object is null: %1$s", ex.getMessage()));
             throw new AssertionError();
         }
     }

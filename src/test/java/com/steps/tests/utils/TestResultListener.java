@@ -7,7 +7,7 @@ import com.tables.ProjectTable;
 import com.tables.SessionTable;
 import com.tables.TestTable;
 import com.utils.Config;
-import com.utils.DataBaseActions;
+import com.utils.DataBaseManager;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
@@ -18,9 +18,10 @@ import java.time.LocalDateTime;
 public class TestResultListener extends TestListenerAdapter {
     private static final String COLUMN_NAME_ID = "id";
     private static final String ERROR_FILE_NAME = "error.txt";
-    private static final String LOG_PATH = "target/log/log.log";
+    private static final String LOG_PATH = String.format("%1$s/log/log.log", Config.getInstance().getRootPath());
     private static final String METHOD_NAME = "runSomeTest";
     private final PrintStream errorLog = DataManager.createFile(ERROR_FILE_NAME);
+    private final DataBaseManager dbActions = DataBaseManager.getInstance();
     TestTable testTable = new TestTable();
     ProjectTable projectTable = new ProjectTable();
     SessionTable sessionTable = new SessionTable();
@@ -36,8 +37,8 @@ public class TestResultListener extends TestListenerAdapter {
             projectTable.addRowToProjectTable();
             testTable.setName(result.getMethod().getDescription());
             testTable.setStartTime();
-            testTable.setProjectId((long) DataBaseActions.getFirst(COLUMN_NAME_ID, "project", "name = 'Test'"));
-            testTable.setAuthorId((long) DataBaseActions.getFirst(COLUMN_NAME_ID, "author", String.format("email = '%s'",
+            testTable.setProjectId((long) dbActions.getFirst(COLUMN_NAME_ID, "project", "name = 'Test'"));
+            testTable.setAuthorId((long) dbActions.getFirst(COLUMN_NAME_ID, "author", String.format("email = '%1$s'",
                     Config.getInstance().getDataProperties("email"))));
         }
     }
@@ -49,9 +50,9 @@ public class TestResultListener extends TestListenerAdapter {
             sessionTable.setSessionKey(String.valueOf(result.getStartMillis()));
             sessionTable.addRowToSessionTable();
             testTable.setStatusId(result.getStatus());
-            testTable.setMethodName(String.format("%s.%s", result.getInstanceName(), result.getName()));
+            testTable.setMethodName(String.format("%1$s.%2$s", result.getInstanceName(), result.getName()));
             testTable.setEndTime();
-            testTable.setSessionId((long) DataBaseActions.getMax(COLUMN_NAME_ID, "session"));
+            testTable.setSessionId((long) dbActions.getMax(COLUMN_NAME_ID, "session"));
             testTable.addRowToTestTable();
             logTable.setTestId(testTable.getId());
             devInfoTable.setTestId(testTable.getId());
@@ -64,9 +65,9 @@ public class TestResultListener extends TestListenerAdapter {
             sessionTable.setSessionKey(String.valueOf(result.getStartMillis()));
             sessionTable.addRowToSessionTable();
             testTable.setStatusId(result.getStatus());
-            testTable.setMethodName(String.format("%s.%s", result.getInstanceName(), result.getName()));
+            testTable.setMethodName(String.format("%1$s.%2$s", result.getInstanceName(), result.getName()));
             testTable.setEndTime();
-            testTable.setSessionId((long) DataBaseActions.getMax(COLUMN_NAME_ID, "session"));
+            testTable.setSessionId((long) dbActions.getMax(COLUMN_NAME_ID, "session"));
             testTable.addRowToTestTable();
             logTable.setTestId(testTable.getId());
             devInfoTable.setTestId(testTable.getId());

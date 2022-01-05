@@ -1,6 +1,6 @@
 package com.tables;
 
-import com.utils.DataBaseActions;
+import com.utils.DataBaseManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class TestTable {
     private static final String TABLE_NAME = "test";
     private static final String COLUMN_NAME_ID = "id";
+    private final DataBaseManager dbActions = DataBaseManager.getInstance();
     private long id;
     private String name;
     private int statusId;
@@ -70,13 +71,9 @@ public class TestTable {
     }
 
     public void addRowToTestTable() {
-        if (DataBaseActions.isEmpty(TABLE_NAME)) {
-            id = 1;
-        } else {
-            id = (long) DataBaseActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
-            DataBaseActions.insertQuery(String.format("INSERT INTO %s VALUES (%s, '%s', %s, '%s', %s, %s, '%s', '%s', '%s', '%s', %s)",
+        id = dbActions.isEmpty(TABLE_NAME) ? 1 : (long) dbActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
+        dbActions.insertQuery(String.format("INSERT INTO %1$s VALUES (%2$s, '%3$s', %4$s, '%5$s', %6$s, %7$s, '%8$s', '%9$s', '%10$s', '%11$s', %12$s)",
                     TABLE_NAME, id, name, statusId, methodName, projectId, sessionId, startTime, endTime, env, browser, authorId));
-        }
     }
 
     public long getId() {

@@ -3,7 +3,7 @@ package com.steps.tests.utils;
 import com.tables.AuthorTable;
 import com.tables.ProjectTable;
 import com.tables.TestTable;
-import com.utils.DataBaseActions;
+import com.utils.DataBaseManager;
 import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 
 public class DataManager {
     private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+    private static final DataBaseManager DB_ACTIONS = DataBaseManager.getInstance();
 
     private DataManager() {}
 
@@ -48,14 +49,14 @@ public class DataManager {
     public static String getRandomIds(int start, int end, int count) {
         StringBuilder st = new StringBuilder();
         List<Integer> list = convertArrayToList(getTestIds(start, end), count);
-        list.forEach(i -> st.append(i).append(", "));
-        return st.substring(0, st.length()-2);
+        list.forEach(index -> st.append(index).append(", "));
+        return st.substring(0, st.length() - 2);
     }
 
     private static int[] getTestIds(int start, int end) {
-        return  IntStream.range(start, end).filter(i -> (
-                String.valueOf(i).charAt(0) == String.valueOf(i).charAt(1)
-                        || String.valueOf(i).charAt(String.valueOf(i).length()-2) == String.valueOf(i).charAt(String.valueOf(i).length()-1)
+        return  IntStream.range(start, end).filter(number -> (
+                String.valueOf(number).charAt(0) == String.valueOf(number).charAt(1)
+                        || String.valueOf(number).charAt(String.valueOf(number).length() - 2) == String.valueOf(number).charAt(String.valueOf(number).length() - 1)
         )).toArray();
     }
 
@@ -72,14 +73,14 @@ public class DataManager {
                 list.add(new TestTable(resultSet));
             }
         } catch (SQLException ex) {
-            LOGGER.info("Can't get access to database or incorrect SQL query");
+            LOGGER.info(String.format("Can't get access to database or incorrect SQL query%n%1$s", ex.getMessage()));
         }
         return list;
     }
 
     public static void updateAuthorAndProject(TestTable table) {
-        table.setAuthorId((long) DataBaseActions.getFirst("id", "author", String.format("email = '%s'", new AuthorTable().getEmail())));
-        table.setProjectId((long) DataBaseActions.getFirst("id", "project", String.format("name = '%s'", new ProjectTable().getName())));
+        table.setAuthorId((long) DB_ACTIONS.getFirst("id", "author", String.format("email = '%1$s'", new AuthorTable().getEmail())));
+        table.setProjectId((long) DB_ACTIONS.getFirst("id", "project", String.format("name = '%1$s'", new ProjectTable().getName())));
         table.setName(table.getName().replace("'", ""));
     }
 }

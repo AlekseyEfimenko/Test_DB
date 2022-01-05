@@ -1,10 +1,11 @@
 package com.tables;
 
-import com.utils.DataBaseActions;
+import com.utils.DataBaseManager;
 
 public class LogTable {
     private static final String TABLE_NAME = "log";
     private static final String COLUMN_NAME_ID = "id";
+    private final DataBaseManager dbActions = DataBaseManager.getInstance();
     private long id;
     private String content;
     private boolean isException = false;
@@ -16,7 +17,7 @@ public class LogTable {
     }
 
     public void setContent(String content, String method) {
-        this.content = String.format("%s%n%s Test-case: %s %s%n%s%n%s",
+        this.content = String.format("%1$s%n%2$s Test-case: %3$s %4$s%n%5$s%n%6$s",
                 "-".repeat(80), "=".repeat(20), method, "=".repeat(20), "-".repeat(80), content.replace("'", ""));
     }
 
@@ -25,17 +26,20 @@ public class LogTable {
     }
 
     public void addRowToLogTable() {
-        if (DataBaseActions.isEmpty(TABLE_NAME)) {
+        if (dbActions.isEmpty(TABLE_NAME)) {
             id = 1;
         } else {
-            id = (long) DataBaseActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
-            DataBaseActions.insertQuery(String.format("INSERT INTO %s VALUES (%s, '%s', %s, %s)", TABLE_NAME, id, content, isException, testId));
+            insertRow();
         }
         if (!errorInfo.equals("")) {
-            id = (long) DataBaseActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
             isException = true;
-            DataBaseActions.insertQuery(String.format("INSERT INTO %s VALUES (%s, '%s', %s, %s)", TABLE_NAME, id, errorInfo, isException, testId));
+            insertRow();
         }
+    }
+
+    private void insertRow() {
+        id = (long) dbActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
+        dbActions.insertQuery(String.format("INSERT INTO %1$s VALUES (%2$s, '%3$s', %4$s, %5$s)", TABLE_NAME, id, content, isException, testId));
     }
 }
 

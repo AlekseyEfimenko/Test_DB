@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -36,7 +37,7 @@ public class Config {
         try (FileInputStream fileInputStream = new FileInputStream(getFile(src))) {
             properties.load(fileInputStream);
         } catch (IOException ex) {
-            LOGGER.error(String.format("File %s is not found%n%s", src, ex.getMessage()));
+            LOGGER.error(String.format("File %1$s is not found%n%2$s", src, ex.getMessage()));
         }
     }
 
@@ -48,6 +49,16 @@ public class Config {
             LOGGER.error(ex.getMessage());
         }
         return file;
+    }
+
+    public String getRootPath() {
+        String path = "";
+        try {
+            path = Paths.get(Objects.requireNonNull(getClass().getResource("/")).toURI()).getParent().toString();
+        } catch (URISyntaxException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return path;
     }
 }
 
