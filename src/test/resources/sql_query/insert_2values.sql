@@ -1,0 +1,1 @@
+INSERT INTO %1$s VALUES (%2$s, '%3$s')

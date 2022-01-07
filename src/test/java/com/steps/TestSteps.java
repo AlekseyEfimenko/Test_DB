@@ -5,6 +5,7 @@ import static com.utils.CustomAssert.customAssertTrue;
 import static com.utils.CustomAssert.customAssertNotEquals;
 import com.steps.tests.utils.DataManager;
 import com.tables.TestTable;
+import com.utils.Config;
 import com.utils.DataBaseManager;
 import org.apache.log4j.Logger;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ import java.util.stream.IntStream;
 
 public class TestSteps {
     private static final Logger LOGGER = Logger.getLogger(TestSteps.class.getName());
+    private static final Config CONFIG = Config.getInstance();
     private static final String TEST_TABLE_NAME = "test";
     private static final String COLUMN_NAME_ID = "id";
     private static final String COLUMN_NAME_START_TIME = "start_time";
@@ -63,7 +65,7 @@ public class TestSteps {
             table.setName(table.getName().replace("'", ""));
         });
         LOGGER.info("Adding simulated tests results");
-        tables.forEach(table -> dbActions.updateRecord(String.format("UPDATE test SET status_id = %1$s, start_time = '%2$s', end_time = '%3$s' WHERE id = %4$s",
+        tables.forEach(table -> dbActions.updateRecord(String.format(CONFIG.getSQLQuery("sql_query/update_test.sql"),
                     table.getStatusId(), table.getStartTime(), table.getEndTime(), table.getId())));
     }
 
@@ -96,7 +98,7 @@ public class TestSteps {
 
     public void deleteCopiedTests(String rangeOfSimulatedIds) {
         LOGGER.info(String.format("Deleting %1$s tests, that was copied for simulation", RANDOM_AMOUNT_OF_TESTS));
-        dbActions.deleteRecord(String.format("DELETE FROM %1$s WHERE id IN (%2$s)", TEST_TABLE_NAME, rangeOfSimulatedIds));
+        dbActions.deleteRecord(String.format(CONFIG.getSQLQuery("sql_query/delete_by_id.sql"), TEST_TABLE_NAME, rangeOfSimulatedIds));
     }
 
     public void assertTestsAreDeleted(String rangeOfSimulatedIds) {

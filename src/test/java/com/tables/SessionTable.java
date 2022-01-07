@@ -1,5 +1,6 @@
 package com.tables;
 
+import com.utils.Config;
 import com.utils.DataBaseManager;
 import java.sql.Timestamp;
 
@@ -23,7 +24,7 @@ public class SessionTable {
     public void addRowToSessionTable() {
         id = dbActions.isEmpty(TABLE_NAME) ? 1 : (long) dbActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
         buildNumber++;
-        dbActions.insertQuery(String.format("INSERT INTO %1$s VALUES (%2$s, '%3$s', '%4$s', %5$s)", TABLE_NAME, id, sessionKey, createdTime, buildNumber));
+        dbActions.insertQuery(String.format(Config.getInstance().getSQLQuery("sql_query/insert_4values.sql"), TABLE_NAME, id, sessionKey, createdTime, buildNumber));
     }
 }
 

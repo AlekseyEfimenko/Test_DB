@@ -1,8 +1,10 @@
 package com.utils;
 
 import org.apache.log4j.Logger;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -59,6 +61,19 @@ public class Config {
             LOGGER.error(ex.getMessage());
         }
         return path;
+    }
+
+    public String getSQLQuery(String src) {
+        StringBuilder query = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(src)))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                query.append(line);
+            }
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return query.toString();
     }
 }
 

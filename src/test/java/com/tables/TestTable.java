@@ -1,5 +1,6 @@
 package com.tables;
 
+import com.utils.Config;
 import com.utils.DataBaseManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,7 +73,7 @@ public class TestTable {
 
     public void addRowToTestTable() {
         id = dbActions.isEmpty(TABLE_NAME) ? 1 : (long) dbActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
-        dbActions.insertQuery(String.format("INSERT INTO %1$s VALUES (%2$s, '%3$s', %4$s, '%5$s', %6$s, %7$s, '%8$s', '%9$s', '%10$s', '%11$s', %12$s)",
+        dbActions.insertQuery(String.format(Config.getInstance().getSQLQuery("sql_query/insert_11values.sql"),
                     TABLE_NAME, id, name, statusId, methodName, projectId, sessionId, startTime, endTime, env, browser, authorId));
     }
 

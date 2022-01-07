@@ -28,7 +28,7 @@ public class AuthorTable {
     }
 
     private void insertRow() {
-        dbActions.insertQuery(String.format("INSERT INTO %1$s VALUES (%2$s, '%3$s', '%4$s', '%5$s')", TABLE_NAME, id, NAME, LOGIN, EMAIL));
+        dbActions.insertQuery(String.format(CONFIG.getSQLQuery("sql_query/insert_4values.sql"), TABLE_NAME, id, NAME, LOGIN, EMAIL));
     }
 
     public String getEmail() {

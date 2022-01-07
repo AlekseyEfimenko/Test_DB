@@ -66,7 +66,7 @@ public class DataBaseManager {
     public ResultSet selectQuery(String table) {
         try {
             LOGGER.info(String.format("Getting data from database with next query: \"SELECT * FROM %1$s\"", table));
-            rs = statement.executeQuery(String.format("SELECT * FROM %1$s", table));
+            rs = statement.executeQuery(String.format(CONFIG.getSQLQuery("sql_query/select_all.sql"), table));
         } catch (SQLException ex) {
             LOGGER.error(String.format("%1$s: \"SELECT * FROM %2$s\"%n%3$s", ERROR_MSG, table, ex.getMessage()));
         }
@@ -76,7 +76,7 @@ public class DataBaseManager {
     public void selectQuery(String columnName, String table) {
         try {
             LOGGER.info(String.format("Getting data from database with next query: \"SELECT %1$s FROM %2$s\"", columnName, table));
-            rs = statement.executeQuery(String.format("SELECT %1$s FROM %2$s", columnName, table));
+            rs = statement.executeQuery(String.format(CONFIG.getSQLQuery("sql_query/select_without_conditions.sql"), columnName, table));
         } catch (SQLException ex) {
             LOGGER.error(String.format("%1$s: \"SELECT %2$s FROM %3$s\"%n%4$s", ERROR_MSG, columnName, table, ex.getMessage()));
         }
@@ -85,7 +85,7 @@ public class DataBaseManager {
     public ResultSet selectQuery(String columnName, String table, String conditions) {
         try {
             LOGGER.info(String.format("Getting data from database with next query: \"SELECT %1$s FROM %2$s WHERE %3$s\"", columnName, table, conditions));
-            rs = statement.executeQuery(String.format("SELECT %s FROM %s WHERE %s", columnName, table, conditions));
+            rs = statement.executeQuery(String.format(CONFIG.getSQLQuery("sql_query/select_with_conditions.sql"), columnName, table, conditions));
         } catch (SQLException ex) {
             LOGGER.error(String.format("%1$s: \"SELECT %2$s FROM %3$s WHERE %4$s\"%n%5$s", ERROR_MSG, columnName, table, conditions, ex.getMessage()));
         }

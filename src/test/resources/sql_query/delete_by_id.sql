@@ -1,0 +1,1 @@
+DELETE FROM %1$s WHERE id IN (%2$s)

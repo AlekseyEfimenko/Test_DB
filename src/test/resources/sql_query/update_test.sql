@@ -1,0 +1,1 @@
+UPDATE test SET status_id = %1$s, start_time = '%2$s', end_time = '%3$s' WHERE id = %4$s

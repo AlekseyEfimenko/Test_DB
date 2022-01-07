@@ -1,5 +1,6 @@
 package com.tables;
 
+import com.utils.Config;
 import com.utils.DataBaseManager;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ public class DevInfoTable {
 
     public void addRowToDevInfoTable() {
         id = dbActions.isEmpty(TABLE_NAME) ? 1 : (long) dbActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
-        dbActions.insertQuery(String.format("INSERT INTO %1$s VALUES (%2$s, %3$s, %4$s)", TABLE_NAME, id, devTime, testId));
+        dbActions.insertQuery(String.format(Config.getInstance().getSQLQuery("sql_query/insert_3values.sql"), TABLE_NAME, id, devTime, testId));
     }
 }
 

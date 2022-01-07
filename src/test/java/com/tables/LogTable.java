@@ -1,5 +1,6 @@
 package com.tables;
 
+import com.utils.Config;
 import com.utils.DataBaseManager;
 
 public class LogTable {
@@ -39,7 +40,7 @@ public class LogTable {
 
     private void insertRow() {
         id = (long) dbActions.getMax(COLUMN_NAME_ID, TABLE_NAME) + 1;
-        dbActions.insertQuery(String.format("INSERT INTO %1$s VALUES (%2$s, '%3$s', %4$s, %5$s)", TABLE_NAME, id, content, isException, testId));
+        dbActions.insertQuery(String.format(Config.getInstance().getSQLQuery("sql_query/insert_4values.sql"), TABLE_NAME, id, content, isException, testId));
     }
 }
 
