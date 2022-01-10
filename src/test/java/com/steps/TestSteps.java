@@ -82,14 +82,6 @@ public class TestSteps {
         }
     }
 
-    private ResultSet getStartTimeBeforeSimulate(String rangeOfTestIds) {
-        return dbActions.selectQuery(COLUMN_NAME_START_TIME, TEST_TABLE_NAME, String.format("%1$s IN (%2$s)", COLUMN_NAME_ID, rangeOfTestIds));
-    }
-
-    private ResultSet getStartTimeAfterSimulate(String rangeOfSimulatedIds) {
-        return dbActions.selectQuery(COLUMN_NAME_START_TIME, TEST_TABLE_NAME, String.format("%1$s IN (%2$s)", COLUMN_NAME_ID, rangeOfSimulatedIds));
-    }
-
     public String getTestSimulatedId(long maxIdBeforeSimulation) {
         long maxIdAfterSimulate = (long) dbActions.getMax(COLUMN_NAME_ID, TEST_TABLE_NAME) + 1;
         String ids = Arrays.toString(IntStream.range((int) maxIdBeforeSimulation, (int) maxIdAfterSimulate).toArray());
@@ -104,6 +96,14 @@ public class TestSteps {
     public void assertTestsAreDeleted(String rangeOfSimulatedIds) {
         LOGGER.info("Checking if copied tests are deleted from database");
         customAssertTrue(dbActions.isEmpty("*", TEST_TABLE_NAME, String.format("%1$s IN (%2$s)", COLUMN_NAME_ID, rangeOfSimulatedIds)));
+    }
+
+    private ResultSet getStartTimeBeforeSimulate(String rangeOfTestIds) {
+        return dbActions.selectQuery(COLUMN_NAME_START_TIME, TEST_TABLE_NAME, String.format("%1$s IN (%2$s)", COLUMN_NAME_ID, rangeOfTestIds));
+    }
+
+    private ResultSet getStartTimeAfterSimulate(String rangeOfSimulatedIds) {
+        return dbActions.selectQuery(COLUMN_NAME_START_TIME, TEST_TABLE_NAME, String.format("%1$s IN (%2$s)", COLUMN_NAME_ID, rangeOfSimulatedIds));
     }
 }
 

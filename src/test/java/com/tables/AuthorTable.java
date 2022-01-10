@@ -27,12 +27,12 @@ public class AuthorTable {
         }
     }
 
-    private void insertRow() {
-        dbActions.insertQuery(String.format(CONFIG.getSQLQuery("sql_query/insert_4values.sql"), TABLE_NAME, id, NAME, LOGIN, EMAIL));
-    }
-
     public String getEmail() {
         return EMAIL;
+    }
+
+    private void insertRow() {
+        dbActions.insertQuery(String.format(CONFIG.getSQLQuery("sql_query/insert_4values.sql"), TABLE_NAME, id, NAME, LOGIN, EMAIL));
     }
 }
 

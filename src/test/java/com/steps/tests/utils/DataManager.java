@@ -53,19 +53,6 @@ public class DataManager {
         return st.substring(0, st.length() - 2);
     }
 
-    private static int[] getTestIds(int start, int end) {
-        return  IntStream.range(start, end).filter(number -> (
-                String.valueOf(number).charAt(0) == String.valueOf(number).charAt(1)
-                        || String.valueOf(number).charAt(String.valueOf(number).length() - 2) == String.valueOf(number).charAt(String.valueOf(number).length() - 1)
-        )).toArray();
-    }
-
-    private static List<Integer> convertArrayToList(int[] array, int length) {
-        List<Integer> list = Arrays.stream(array).boxed().collect(Collectors.toList());
-        Collections.shuffle(list);
-        return list.subList(0, length);
-    }
-
     public static List<TestTable> convertResultSetToList(ResultSet resultSet) {
         List<TestTable> list = new ArrayList<>();
         try {
@@ -82,6 +69,19 @@ public class DataManager {
         table.setAuthorId((long) DB_ACTIONS.getFirst("id", "author", String.format("email = '%1$s'", new AuthorTable().getEmail())));
         table.setProjectId((long) DB_ACTIONS.getFirst("id", "project", String.format("name = '%1$s'", new ProjectTable().getName())));
         table.setName(table.getName().replace("'", ""));
+    }
+
+    private static int[] getTestIds(int start, int end) {
+        return  IntStream.range(start, end).filter(number -> (
+                String.valueOf(number).charAt(0) == String.valueOf(number).charAt(1)
+                        || String.valueOf(number).charAt(String.valueOf(number).length() - 2) == String.valueOf(number).charAt(String.valueOf(number).length() - 1)
+        )).toArray();
+    }
+
+    private static List<Integer> convertArrayToList(int[] array, int length) {
+        List<Integer> list = Arrays.stream(array).boxed().collect(Collectors.toList());
+        Collections.shuffle(list);
+        return list.subList(0, length);
     }
 }
 

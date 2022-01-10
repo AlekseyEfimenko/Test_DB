@@ -26,22 +26,6 @@ public class DataBaseManager {
         }
     }
 
-    public static void setConnection() {
-        if (connection == null) {
-            String connectionString = CONFIG.getProperties("connectionPath");
-            String login = CONFIG.getProperties("user");
-            String password = CONFIG.getProperties("password");
-            try {
-                LOGGER.info(String.format("Set connection to %1$s", connectionString));
-                connection = DriverManager.getConnection(connectionString, login, password);
-
-            } catch (SQLException ex) {
-                LOGGER.error(String.format("Can't get connection. Incorrect URL%n%1$s", ex.getMessage()));
-            }
-        }
-        LOGGER.info("Connection is created successfully");
-    }
-
     public static Connection getConnection() {
         return connection;
     }
@@ -163,6 +147,22 @@ public class DataBaseManager {
             LOGGER.error(String.format(ERROR_FORMAT, ERROR_MSG, ex.getMessage()));
         }
         return cond;
+    }
+
+    private static void setConnection() {
+        if (connection == null) {
+            String connectionString = CONFIG.getProperties("connectionPath");
+            String login = CONFIG.getProperties("user");
+            String password = CONFIG.getProperties("password");
+            try {
+                LOGGER.info(String.format("Set connection to %1$s", connectionString));
+                connection = DriverManager.getConnection(connectionString, login, password);
+
+            } catch (SQLException ex) {
+                LOGGER.error(String.format("Can't get connection. Incorrect URL%n%1$s", ex.getMessage()));
+            }
+        }
+        LOGGER.info("Connection is created successfully");
     }
 }
 

@@ -35,24 +35,6 @@ public class Config {
         return properties.getProperty(key);
     }
 
-    private void loadFile(String src) {
-        try (FileInputStream fileInputStream = new FileInputStream(getFile(src))) {
-            properties.load(fileInputStream);
-        } catch (IOException ex) {
-            LOGGER.error(String.format("File %1$s is not found%n%2$s", src, ex.getMessage()));
-        }
-    }
-
-    private File getFile(String src) {
-        File file = null;
-        try {
-            file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource(src)).toURI());
-        } catch (URISyntaxException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        return file;
-    }
-
     public String getRootPath() {
         String path = "";
         try {
@@ -74,6 +56,24 @@ public class Config {
             LOGGER.error(ex.getMessage());
         }
         return query.toString();
+    }
+
+    private void loadFile(String src) {
+        try (FileInputStream fileInputStream = new FileInputStream(getFile(src))) {
+            properties.load(fileInputStream);
+        } catch (IOException ex) {
+            LOGGER.error(String.format("File %1$s is not found%n%2$s", src, ex.getMessage()));
+        }
+    }
+
+    private File getFile(String src) {
+        File file = null;
+        try {
+            file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource(src)).toURI());
+        } catch (URISyntaxException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return file;
     }
 }
 

@@ -22,12 +22,12 @@ public class TestResultListener extends TestListenerAdapter {
     private static final String METHOD_NAME = "runSomeTest";
     private final PrintStream errorLog = DataManager.createFile(ERROR_FILE_NAME);
     private final DataBaseManager dbActions = DataBaseManager.getInstance();
-    TestTable testTable = new TestTable();
-    ProjectTable projectTable = new ProjectTable();
-    SessionTable sessionTable = new SessionTable();
-    AuthorTable authorTable = new AuthorTable();
-    LogTable logTable = new LogTable();
-    DevInfoTable devInfoTable = new DevInfoTable();
+    private final TestTable testTable = new TestTable();
+    private final ProjectTable projectTable = new ProjectTable();
+    private final SessionTable sessionTable = new SessionTable();
+    private final AuthorTable authorTable = new AuthorTable();
+    private final LogTable logTable = new LogTable();
+    private final DevInfoTable devInfoTable = new DevInfoTable();
 
     @Override
     public void onTestStart(ITestResult result) {
