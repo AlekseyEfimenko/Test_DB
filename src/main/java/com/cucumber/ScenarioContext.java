@@ -4,21 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ScenarioContext {
-    private final Map<String, Object> scenario;
+    private static final Map<String, Object> scenario = new HashMap<>();
 
-    public ScenarioContext() {
-        scenario = new HashMap<>();
-    }
+    private ScenarioContext() {}
 
-    public void setContext(Context key, Object value) {
+    public static void setContext(Context key, Object value) {
         scenario.put(key.toString(), value);
     }
 
-    public Object getContext(Context key) {
+    public static Object getContext(Context key) {
         return scenario.get(key.toString());
     }
 
-    public boolean isContains(Context key) {
+    public static boolean isContains(Context key) {
         return scenario.containsKey(key.toString());
     }
 }

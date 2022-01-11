@@ -1,5 +1,7 @@
 package com.steps.tests;
 
+import static com.cucumber.ScenarioContext.setContext;
+import static com.cucumber.ScenarioContext.getContext;
 import com.cucumber.Context;
 import com.tables.TestTable;
 import org.testng.annotations.AfterMethod;
@@ -13,22 +15,22 @@ public class TestDataUpdate extends BaseTest {
 
     @BeforeMethod
     public void copyTests() {
-        scenarioContext.setContext(Context.MAX_ID_BEFORE_SIMULATE, steps.getMaxIDBeforeSimulate());
-        scenarioContext.setContext(Context.ID_RANGE, steps.getIdRange((long) scenarioContext.getContext((Context.MAX_ID_BEFORE_SIMULATE))));
-        testTables = steps.copyRandomTestsFromDataBase((String) scenarioContext.getContext(Context.ID_RANGE));
+        setContext(Context.MAX_ID_BEFORE_SIMULATE, steps.getMaxIDBeforeSimulate());
+        setContext(Context.ID_RANGE, steps.getIdRange((long) getContext((Context.MAX_ID_BEFORE_SIMULATE))));
+        testTables = steps.copyRandomTestsFromDataBase((String) getContext(Context.ID_RANGE));
     }
 
     @Test
     public void runCopiedTests() {
         steps.simulateRunningOfTests(testTables);
-        scenarioContext.setContext(Context.TEST_SIMULATED_IDS, steps.getTestSimulatedId((long) scenarioContext.getContext((Context.MAX_ID_BEFORE_SIMULATE))));
-        steps.assertTestResultsIsUpdate((String) scenarioContext.getContext(Context.ID_RANGE), (String) scenarioContext.getContext(Context.TEST_SIMULATED_IDS));
+        setContext(Context.TEST_SIMULATED_IDS, steps.getTestSimulatedId((long) getContext((Context.MAX_ID_BEFORE_SIMULATE))));
+        steps.assertTestResultsIsUpdate((String) getContext(Context.ID_RANGE), (String) getContext(Context.TEST_SIMULATED_IDS));
     }
 
     @AfterMethod
     public void deleteTests() {
-        steps.deleteCopiedTests((String) scenarioContext.getContext(Context.TEST_SIMULATED_IDS));
-        steps.assertTestsAreDeleted((String) scenarioContext.getContext(Context.TEST_SIMULATED_IDS));
+        steps.deleteCopiedTests((String) getContext(Context.TEST_SIMULATED_IDS));
+        steps.assertTestsAreDeleted((String) getContext(Context.TEST_SIMULATED_IDS));
     }
 }
 
