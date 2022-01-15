@@ -26,7 +26,6 @@ public class Config {
     }
 
     public String getProperties(String key) {
-        //jdbc:mysql://localhost:3307/union_reporting
         return System.getProperty(key);
     }
 
