@@ -26,8 +26,8 @@ public class Config {
     }
 
     public String getProperties(String key) {
-        loadFile("config.properties");
-        return properties.getProperty(key);
+        //jdbc:mysql://localhost:3307/union_reporting
+        return System.getProperty(key);
     }
 
     public String getDataProperties(String key) {
@@ -67,7 +67,6 @@ public class Config {
     }
 
     private File getFile(String src) {
-        System.out.println(System.getProperty("user"));
         File file = null;
         try {
             file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource(src)).toURI());
