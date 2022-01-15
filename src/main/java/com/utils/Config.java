@@ -67,6 +67,7 @@ public class Config {
     }
 
     private File getFile(String src) {
+        System.out.println(System.getProperty("user"));
         File file = null;
         try {
             file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource(src)).toURI());
